@@ -1,0 +1,372 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{CJK}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{caption2}
+
+\lstset{
+	basicstyle=\tt,
+	numbers=left,
+	rulesepcolor=\color{red!20!green!20!blue!20},
+	escapeinside=``,
+	xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+	framexleftmargin=1.5mm,
+	frame=shadowbox,
+	backgroundcolor=\color[RGB]{245,245,244},
+	keywordstyle=\color{blue}\bfseries,
+	identifierstyle=\bf,
+	numberstyle=\color[RGB]{0,192,192},
+	commentstyle=\it\color[RGB]{96,96,96},
+	stringstyle=\rmfamily\slshape\color[RGB]{128,0,0},
+	showstringspaces=false
+}
+
+\title{\textbf{信息安全综合训练I-第二天}}
+\author{\textbf{许劲淇 18281056}}
+\date{\textbf{\today}}
+\begin{document}
+	\maketitle
+	\section{实验目的}
+	\subsection{编写一个C语言版本的Hello World!}
+	\subsection{编写一个C++版本的Hello World!}
+	\subsection{编写一个 GUI的计算器程序（功能可以极简，比如只能做加法，C 或 C++ 任选）}
+	\subsection{用 Latex写一个简单的报告，记录过程、问题、解决办法，以及结果}
+	
+	
+	\section{实验步骤}
+	\subsection{编写一个C语言版本的Hello World!}
+	\subsubsection{安装gcc}
+	\begin{flushleft}
+		在终端中输入命令sudo apt-get install gcc，获取最新版本的gcc.
+	\end{flushleft}
+	\subsubsection{安装编辑器vscode}
+	\begin{flushleft}
+		前往vscode官网下载ubuntu版本对应的deb文件
+	\end{flushleft}
+	\begin{flushleft}
+		在终端通过命令sudo dpkg -i安装vscode.
+	\end{flushleft}
+	\subsubsection{安装vscode插件}
+	\begin{flushleft}
+		在vscode扩展中下载插件\\C/C++\\
+		C++ Intellisense\\Highlight（文本高亮）\\
+	\end{flushleft}
+	\subsubsection{配置C/C++环境}
+	\begin{flushleft}
+		配置launch.json\\
+	\end{flushleft}
+	\begin{lstlisting}
+{
+"version": "0.2.0",
+"configurations": [
+{
+"name": "C++ Launch (DGB)",
+"type": "cppdbg",
+"request": "launch",
+"program": "${workspaceFolder}/main.out",
+"args": [],
+"stopAtEntry": false,
+"cwd": "${workspaceFolder}",
+"environment": [],
+"externalConsole": true,
+"MIMode": "gdb",
+"preLaunchTask": "build",
+"setupCommands": [
+{
+"description": "Enable pretty-printing for gdb",
+"text": "-enable-pretty-printing",
+"ignoreFailures": true
+}
+]
+}
+]
+}		
+	\end{lstlisting}
+	\begin{flushleft}
+		配置tasks.json\\
+	\end{flushleft}
+	\begin{lstlisting}
+{
+"version": "2.0.0",
+"tasks": [
+{
+"label": "build",
+"type": "shell",
+"command": "g++",
+"args": [
+"-g",
+"${file}",
+"--std=c++11",
+"-o",
+"${fileBasenameNoExtension}.out"
+]
+}
+]
+}
+	\end{lstlisting}
+	\subsubsection{编写程序}
+	\begin{flushleft}
+		新建文件main.c，编写C语言程序\\
+	\end{flushleft}
+	\begin{lstlisting}
+#include <stdio.h>
+int main()
+{
+printf("Hello world!\n");
+return 0;
+}
+	\end{lstlisting}
+	\subsubsection{实验结果}
+	\begin{flushleft}
+		调试在终端中出现结果\\
+		
+	\end{flushleft}
+\begin{figure}[h]
+	\centering
+	\includegraphics{P1}
+\end{figure}
+	
+	
+	\subsection{编写一个C++版本的Hello World!}
+	\begin{flushleft}
+		launch.json和tasks.json是基于g++配置的，所以C++也适用
+	\end{flushleft}
+	\subsubsection{编写程序}
+	\begin{flushleft}
+		新建文件main.cpp，编写C++程序\\
+	\end{flushleft}
+	\begin{lstlisting}
+#include <iostream>
+int main()
+{
+std::cout << "Hello world!\n";
+return 0;
+}
+	\end{lstlisting}
+	\subsubsection{实验结果}
+	\begin{flushleft}
+		调试在终端中出现结果\\
+	\end{flushleft}
+	\begin{figure}[h]
+		\centering
+		\includegraphics{P2}
+	\end{figure}
+	
+	
+	\subsection{编写一个 GUI的计算器程序（功能可以极简，比如只能做加法，C 或 C++ 任选）}
+\begin{flushleft}
+		通过在网络上的学习，我使用gtk进行简单的gui编程，编写计算器程序
+\end{flushleft}
+	\subsubsection{下载gtk}
+	\begin{flushleft}
+		在终端中输入以下命令：\\
+
+sudo apt-get install build-essential\\
+安装gcc/g++/gdb/make 等基本编程工具\\
+
+sudo apt-get install gnome-core-devel\\
+安装 libgtk2.0-dev libglib2.0-dev 等开发相关的库文件\\
+
+sudo apt-get install pkg-config\\
+用于在编译GTK程序时自动找出头文件及库文件位置\\
+
+sudo apt-get install devhelp\\
+安装 devhelp GTK文档查看程序\\
+
+sudo apt-get install libglib2.0-doc libgtk2.0-doc\\
+安装 gtk/glib 的API参考手册及其它帮助文档\\
+
+sudo apt-get install glade libglade2-dev\\
+安装基于GTK的界面GTK是开发Gnome窗口的c/c++语言图形库\\
+
+sudo apt-get install libgtk3.0-dev\\
+安装gtk3.0\\
+	\end{flushleft}
+	\subsubsection{在vscode中编写程序}
+	由于是第一次使用C语言编写gui项目，所以参考了网上的部分代码和javaFX中的项目，编写main.c文件\\
+	\begin{lstlisting}
+#include <gtk/gtk.h>
+#include <stdio.h>
+#include <string.h>
+
+char buf[50] = "";
+
+void deal_num(GtkButton *button, gpointer data)
+{
+const char *text = gtk_button_get_label(button);
+
+
+if (0 == strcmp(text, "c"))
+{
+buf[strlen(buf) - 1] = 0;
+}
+else
+{
+int a = 0, b = 0;
+char c;
+strcat(buf, text);
+
+if (0 == strcmp("=", text))
+{
+printf("text==##%s##\n", text);
+sscanf(buf, "%d%c%d", &a, &c, &b);
+
+printf("---------001-----%c--\n", c);
+if ('+' == c)
+{
+sprintf(buf, "%d", a + b);
+}
+else if ('-' == c)
+{
+sprintf(buf, "%d", a - b);
+}
+else if ('*' == c)
+{
+sprintf(buf, "%d", a * b);
+}
+else if ('/' == c)
+{
+sprintf(buf, "%d", a / b);
+}
+}
+}
+
+gtk_entry_set_text(GTK_ENTRY(data), buf);
+
+return;
+}
+
+int main(int argc, char *argv[])
+{
+gtk_init(&argc, &argv);
+
+GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+GtkWidget *table = gtk_table_new(5, 4, TRUE);
+gtk_container_add(GTK_CONTAINER(window), table);
+
+GtkWidget *entry = gtk_entry_new();
+gtk_entry_set_text(GTK_ENTRY(entry), "2+2=4");
+gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
+
+GtkWidget *button0 = gtk_button_new_with_label("0"); //数值键0
+GtkWidget *button1 = gtk_button_new_with_label("1"); //数值键1
+GtkWidget *button2 = gtk_button_new_with_label("2"); //数值键2
+GtkWidget *button3 = gtk_button_new_with_label("3"); //数值键3
+GtkWidget *button4 = gtk_button_new_with_label("4"); //数值键4
+GtkWidget *button5 = gtk_button_new_with_label("5"); //数值键5
+GtkWidget *button6 = gtk_button_new_with_label("6"); //数值键6
+GtkWidget *button7 = gtk_button_new_with_label("7"); //数值键7
+GtkWidget *button8 = gtk_button_new_with_label("8"); //数值键8
+GtkWidget *button9 = gtk_button_new_with_label("9"); //数值键9
+
+GtkWidget *button_add = gtk_button_new_with_label("+");    //加号
+GtkWidget *button_minus = gtk_button_new_with_label("-");  //减号
+GtkWidget *button_mul = gtk_button_new_with_label("*");    //乘号
+GtkWidget *button_div = gtk_button_new_with_label("/");    //除号
+GtkWidget *button_equal = gtk_button_new_with_label("=");  //等号
+GtkWidget *button_delete = gtk_button_new_with_label("c"); //退格键
+
+gtk_table_attach_defaults(GTK_TABLE(table), entry, 0, 4, 0, 1);
+
+gtk_table_attach_defaults(GTK_TABLE(table), button0, 0, 1, 4, 5);
+gtk_table_attach_defaults(GTK_TABLE(table), button1, 0, 1, 3, 4);
+gtk_table_attach_defaults(GTK_TABLE(table), button2, 1, 2, 3, 4);
+gtk_table_attach_defaults(GTK_TABLE(table), button3, 2, 3, 3, 4);
+gtk_table_attach_defaults(GTK_TABLE(table), button4, 0, 1, 2, 3);
+gtk_table_attach_defaults(GTK_TABLE(table), button5, 1, 2, 2, 3);
+gtk_table_attach_defaults(GTK_TABLE(table), button6, 2, 3, 2, 3);
+gtk_table_attach_defaults(GTK_TABLE(table), button7, 0, 1, 1, 2);
+gtk_table_attach_defaults(GTK_TABLE(table), button8, 1, 2, 1, 2);
+gtk_table_attach_defaults(GTK_TABLE(table), button9, 2, 3, 1, 2);
+
+gtk_table_attach_defaults(GTK_TABLE(table), button_add, 1, 2, 4, 5);
+gtk_table_attach_defaults(GTK_TABLE(table), button_minus, 2, 3, 4, 5);
+gtk_table_attach_defaults(GTK_TABLE(table), button_mul, 3, 4, 2, 3);
+gtk_table_attach_defaults(GTK_TABLE(table), button_div, 3, 4, 3, 4);
+gtk_table_attach_defaults(GTK_TABLE(table), button_equal, 3, 4, 4, 5);
+gtk_table_attach_defaults(GTK_TABLE(table), button_delete, 3, 4, 1, 2);
+
+g_signal_connect(button0, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button1, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button2, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button3, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button4, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button5, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button6, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button7, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button8, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button9, "pressed", G_CALLBACK(deal_num), entry);
+
+g_signal_connect(button_add, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button_mul, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button_div, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button_minus, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button_equal, "pressed", G_CALLBACK(deal_num), entry);
+g_signal_connect(button_delete, "pressed", G_CALLBACK(deal_num), entry);
+
+gtk_widget_show_all(window);
+
+gtk_main();
+
+return 0;
+}
+	\end{lstlisting}
+	\subsubsection{实验结果}
+	\begin{flushleft}
+		在终端中跳转至main.c所在文件夹，输入命令\\gcc -o main main.c `pkg-config --cflags --libs gtk+-3.0`\\编译文件\\
+	输入./main运行\\
+	结果：\\
+	
+	\end{flushleft}	
+	\begin{figure}[h]
+		\centering
+		\includegraphics{P3}
+		\\
+		\includegraphics{P4}
+	\end{figure}
+	
+	
+	\subsection{用 Latex写一个简单的报告，记录过程、问题、解决办法，以及结果}
+	\subsubsection{下载Tex Live}
+	\begin{flushleft}
+		在终端中输入命令\\sudo apt-get install texlive-full\\下载Tex Live
+	\end{flushleft}
+	\subsubsection{安装TexStudio}
+	\begin{flushleft}
+		在终端中输入\\sudo apt-get install texstudio\\安装Texstudio
+	\end{flushleft}
+	\subsubsection{撰写实验报告}
+	\begin{flushleft}
+		通过网上的入门教程，简单学习了LaTex的简单语法，主要包括以下几点：\\
+	\end{flushleft}
+	\paragraph{排版中英文}
+\begin{flushleft}
+	主要通过控制序列ctexart和添加文档类选项UTF8来实现中英混排
+\end{flushleft}
+	\paragraph{段落标题设置}
+	\begin{flushleft}
+	在article/ctexart 中，定义了五个控制序列来调整行文组织结构\\
+	section\\subsection\\subsubsection\\paragraph\\subparagraph\\
+	来实现类似word中的三级标题和段落
+	\end{flushleft}
+	\paragraph{插入代码、设计代码格式}
+	\begin{flushleft}
+		添加listings和xcolor实现代码的插入\\
+		通过控制序列lstset调整代码的格式\\在插入代码的位置通过begin语句调用lstlisting插入代码块\\
+	\end{flushleft}
+
+	\paragraph{插入图片}
+	\begin{flushleft}
+		添加graphicx,subfigure,caption2实现图片的插入\\
+		在插入图片的位置通过begin语句调用figure插入图片，在环境中可以通过控制序列includegraphics调整图片大小\\
+	\end{flushleft}
+
+	\section{实验收获}
+	\begin{flushleft}
+		经过不断的摸索、学习和往复的重装系统后，我对Ubuntu系统的操作和终端基本指令有了更多的了解。在第二天的实验中，我学会了如何在Ubuntu系统配置可以编译C/C++的IDE，以及学会了通过C语言实现简单的GUI图形编程，我本来是想通过Qt进行编写，但是QtCreator在安装后却无法打开，网上找到的方法也没有起到作用，所以在同学的建议下选择了gtk进行编写GUI项目，最后是学会了通过LaTex来进行实验报告的撰写和排版，使用LaTex编写实验报告的过程有点类似在编写代码，报告的排版是通过在编写过程中实现的，确实很奇妙，也有效的避免了在word操作中可能会出现的段落对不齐的问题。
+	\end{flushleft}
+
+\end{document}
